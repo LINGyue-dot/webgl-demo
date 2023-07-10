@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function webglInit() {
+        const canvasEle = document.createElement('canvas')
+        canvasEle.width = document.body.clientWidth
+        canvasEle.height = document.body.clientHeight
+        document.body.append(canvasEle)
+
+        //
+        const context = canvasEle.getContext('webgl')
+        // 设置视图
+        context.viewport(0, 0, context.canvas.width, context.canvas.height)
+        return context
+      }
+
+      function writeTang() {
+        const gl = webglInit()
+        // 创建顶点着色器
+        const vShader = gl.createShader(gl.VERTEX_SHADER)
+
+        gl.shaderSource(
+          vShader,
+          `
+            attribute vec4 v_position;
+            void main(){
+                gl_Position = v_position;
+            }
+        `,
+        )
+        gl.compileShader(vShader) // 编译着色器代码
+        const fShader = gl.createShader(gl.FRAGMENT_SHADER)
+        gl.shaderSource(
+          fShader,
+          `
+            precision mediump float;
+            uniform vec4 f_color;
+            void main(){
+                gl_FragColor = f_color; // 设置片元颜色
+            }
+        `,
+        ) // 编写片元着色器代码
+        gl.compileShader(fShader) // 编译着色器代码
+      }
+    </script>
+  </body>
+</html>
